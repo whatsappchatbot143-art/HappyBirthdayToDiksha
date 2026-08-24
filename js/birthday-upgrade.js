@@ -71,25 +71,26 @@
 
     const TIMING = {
 
-        hero: 5000,
+    hero: 8000,
 
-        story: 6500,
+    story: 10000,
 
-        photos: 6000,
+    photos: 6500,        // Har ek photo ka time
 
-        interlude: 4000,
+    interlude: 6500,
 
-        letter: 8500,
+    letter: 13000,
 
-        final: 9000,
+    final: 12000,
 
-        transition: 900,
+    transition: 1200,
 
-        videoLoadTimeout: 8000,
+    videoLoadTimeout: 8000,
 
-        finalRevealDelay: 8500
+    finalRevealDelay: 12000
 
-    };
+};
+   
 
 
     /* =====================================================
@@ -1648,34 +1649,11 @@
          * PHOTOS
          */
 
-        if (
-            type ===
-            "photos"
-        ) {
+        if (type === "photos") {
 
-            const gallery =
-                scene.querySelector(
-                    "#bxGallery"
-                );
+    startPhotoSlideshow();
 
-
-            if (
-                !gallery ||
-                gallery.children.length === 0
-            ) {
-
-                skipCurrentScene();
-
-                return;
-
-            }
-
-
-            autoNext(
-                TIMING.photos
-            );
-
-            return;
+    return;
 
         }
 
@@ -1716,6 +1694,23 @@
 
         }
 
+       /*
+         * VIDEO 2
+         */
+
+        if (
+            type ===
+            "video2"
+        ) {
+
+            playSceneVideo(
+                "bxVideo2",
+                false
+            );
+
+            return;
+
+        }
 
         /*
          * LETTER
@@ -1734,24 +1729,21 @@
 
         }
 
-
+       
         /*
-         * VIDEO 2
+         * VIDEO 3
          */
 
-        if (
-            type ===
-            "video2"
-        ) {
+       if (type === "video3") {
 
-            playSceneVideo(
-                "bxVideo2",
-                false
-            );
+    playSceneVideo(
+        "bxVideo3",
+        false
+    );
 
-            return;
+    return;
 
-        }
+       }
 
 
         /*
@@ -2469,70 +2461,476 @@
     }
 
 
+   let photoTimer = null;
+
+
+function startPhotoSlideshow() {
+
+    const gallery =
+        document.getElementById("bxGallery");
+
+    const image =
+        document.getElementById("bxMainPhoto");
+
+    if (!gallery || !image) {
+
+        skipCurrentScene();
+        return;
+
+    }
+
+
+    let photos = [];
+
+    try {
+
+        photos =
+            JSON.parse(
+                gallery.dataset.photos || "[]"
+            );
+
+    } catch (error) {
+
+        photos = [];
+
+    }
+
+
+    if (photos.length === 0) {
+
+        skipCurrentScene();
+        return;
+
+    }
+
+
+    clearPhotoTimer();
+
+
+    let current =
+        parseInt(
+            gallery.dataset.current || "0",
+            10
+        );
+
+
+    if (isNaN(current)) {
+
+        current = 0;
+
+    }
+
+
+    /*
+       Show first/current photo
+    */
+
+    showPhoto(
+        current,
+        false
+    );
+
+
+    function scheduleNext() {
+
+        clearPhotoTimer();
+
+        photoTimer =
+            setTimeout(
+                function () {
+
+                    const next =
+                        current + 1;
+
+
+                    if (
+                        next >=
+                        photos.length
+                    ) {
+
+                        /*
+                           All photos complete.
+                           Continue cinematic journey.
+                        */
+
+                        clearPhotoTimer();
+
+                        goNext();
+
+                        return;
+
+                    }
+
+
+                    current =
+                        next;
+
+                    gallery.dataset.current =
+                        String(current);
+
+
+                    showPhoto(
+                        current,
+                        true
+                    );
+
+
+                    scheduleNext();
+
+                },
+                TIMING.photos
+            );
+
+    }
+
+
+    scheduleNext();
+
+}
+
+
+function showPhoto(
+    index,
+    animate
+) {
+
+    const gallery =
+        document.getElementById("bxGallery");
+
+    const image =
+        document.getElementById("bxMainPhoto");
+
+    const counter =
+        gallery
+            ? gallery.querySelector(
+                ".bx-photo-counter"
+            )
+            : null;
+
+
+    if (!gallery || !image) return;
+
+
+    let photos = [];
+
+    try {
+
+        photos =
+            JSON.parse(
+                gallery.dataset.photos || "[]"
+            );
+
+    } catch (error) {
+
+        return;
+
+    }
+
+
+    if (!photos[index]) {
+
+        nextPhoto(true);
+        return;
+
+    }
+
+
+    /*
+       Reset animation
+    */
+
+    image.classList.remove(
+        "bx-photo-visible"
+    );
+
+    image.classList.remove(
+        "bx-photo-enter"
+    );
+
+
+    if (animate) {
+
+        image.classList.add(
+            "bx-photo-leave"
+        );
+
+    }
+
+
+    setTimeout(
+        function () {
+
+            const newImage =
+                new Image();
+
+
+            newImage.onload =
+                function () {
+
+                    image.src =
+                        photos[index];
+
+
+                    image.classList.remove(
+                        "bx-photo-leave"
+                    );
+
+
+                    void image.offsetWidth;
+
+
+                    image.classList.add(
+                        "bx-photo-enter"
+                    );
+
+
+                    image.classList.add(
+                        "bx-photo-visible"
+                    );
+
+
+                    if (counter) {
+
+                        counter.textContent =
+                            (index + 1) +
+                            " / " +
+                            photos.length;
+
+                    }
+
+                };
+
+
+            newImage.onerror =
+                function () {
+
+                    console.warn(
+                        "Skipping missing image:",
+                        photos[index]
+                    );
+
+
+                    nextPhoto(
+                        true
+                    );
+
+                };
+
+
+            newImage.src =
+                photos[index];
+
+        },
+        animate ? 650 : 50
+    );
+
+}
+
+
+function nextPhoto(
+    skipMissing
+) {
+
+    const gallery =
+        document.getElementById("bxGallery");
+
+    if (!gallery) return;
+
+
+    let photos = [];
+
+    try {
+
+        photos =
+            JSON.parse(
+                gallery.dataset.photos || "[]"
+            );
+
+    } catch (error) {
+
+        photos = [];
+
+    }
+
+
+    let current =
+        parseInt(
+            gallery.dataset.current || "0",
+            10
+        );
+
+
+    current++;
+
+
+    if (
+        current >=
+        photos.length
+    ) {
+
+        clearPhotoTimer();
+
+        goNext();
+
+        return;
+
+    }
+
+
+    gallery.dataset.current =
+        String(current);
+
+
+    showPhoto(
+        current,
+        true
+    );
+
+}
+
+
+function clearPhotoTimer() {
+
+    if (photoTimer) {
+
+        clearTimeout(
+            photoTimer
+        );
+
+        photoTimer = null;
+
+    }
+
+}
+
+
     /* =====================================================
        STORY
     ===================================================== */
 
-    function buildStory() {
+    function buildGallery() {
 
-        const box =
-            document.getElementById(
-                "bxStory"
+    const gallery =
+        document.getElementById("bxGallery");
+
+    if (!gallery) return;
+
+    gallery.innerHTML = "";
+
+    const photos =
+        Array.isArray(C.photos)
+            ? C.photos.filter(hasPath)
+            : [];
+
+    if (photos.length === 0) {
+
+        hidePhotosSection();
+        return;
+
+    }
+
+    /*
+       One photo at a time.
+       No scrolling.
+    */
+
+    const stage =
+        document.createElement("div");
+
+    stage.className =
+        "bx-photo-stage";
+
+
+    const image =
+        document.createElement("img");
+
+    image.id =
+        "bxMainPhoto";
+
+    image.alt =
+        "A special memory";
+
+    image.src =
+        photos[0];
+
+    image.draggable =
+        false;
+
+
+    /*
+       Progress dots
+    */
+
+    const counter =
+        document.createElement("div");
+
+    counter.className =
+        "bx-photo-counter";
+
+
+    counter.innerHTML =
+        "1 / " + photos.length;
+
+
+    stage.appendChild(image);
+
+    gallery.appendChild(stage);
+
+    gallery.appendChild(counter);
+
+
+    /*
+       Store photos for slideshow engine
+    */
+
+    gallery.dataset.photos =
+        JSON.stringify(photos);
+
+
+    gallery.dataset.current =
+        "0";
+
+
+    /*
+       First image missing?
+       Try next automatically.
+    */
+
+    image.addEventListener(
+        "error",
+        function () {
+
+            console.warn(
+                "Photo failed:",
+                image.src
             );
 
+            nextPhoto(true);
 
-        if (!box) {
-            return;
         }
+    );
 
 
-        box.innerHTML =
-            "";
+    /*
+       Clicking image opens lightbox
+    */
 
+    stage.addEventListener(
+        "click",
+        function () {
 
-        const lines =
-            Array.isArray(
-                C.storyLines
-            )
-                ? C.storyLines
-                : [];
+            if (image.src) {
 
-
-        lines.forEach(
-            function (
-                text,
-                index
-            ) {
-
-                const p =
-                    document.createElement(
-                        "p"
-                    );
-
-
-                p.textContent =
-                    text;
-
-
-                if (
-                    index ===
-                    lines.length - 1
-                ) {
-
-                    p.className =
-                        "bx-highlight";
-
-                }
-
-
-                box.appendChild(
-                    p
+                openLightbox(
+                    image.src
                 );
 
             }
-        );
 
-    }
+        }
+    );
+
+}
 
 
     /* =====================================================
