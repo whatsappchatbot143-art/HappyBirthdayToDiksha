@@ -1027,6 +1027,121 @@
             </section>
 
 
+<!-- =========================================
+     VIDEO 3
+========================================== -->
+
+<section
+    class="bx-section bx-video-section"
+    data-section="video3">
+
+    <div class="bx-container">
+
+        <div class="bx-section-label">
+            06 — ANOTHER LITTLE MEMORY
+        </div>
+
+        <h2 class="bx-heading">
+            And somehow...
+            <i>there's still more.</i>
+        </h2>
+
+        <div class="bx-video">
+            <video
+                id="bxVideo3"
+                controls
+                playsinline
+                preload="metadata">
+
+                <source
+                    src=""
+                    type="video/mp4">
+
+            </video>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     VIDEO 4
+========================================== -->
+
+<section
+    class="bx-section bx-video-section"
+    data-section="video4">
+
+    <div class="bx-container">
+
+        <div class="bx-section-label">
+            07 — ONE MORE MEMORY
+        </div>
+
+        <h2 class="bx-heading">
+            Some moments
+            are simply <i>too special</i>
+            to leave behind.
+        </h2>
+
+        <div class="bx-video">
+            <video
+                id="bxVideo4"
+                controls
+                playsinline
+                preload="metadata">
+
+                <source
+                    src=""
+                    type="video/mp4">
+
+            </video>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     VIDEO 5
+========================================== -->
+
+<section
+    class="bx-section bx-video-section"
+    data-section="video5">
+
+    <div class="bx-container">
+
+        <div class="bx-section-label">
+            08 — ALMOST THERE
+        </div>
+
+        <h2 class="bx-heading">
+            Before the last surprise...
+            <i>just this one.</i>
+        </h2>
+
+        <div class="bx-video">
+            <video
+                id="bxVideo5"
+                controls
+                playsinline
+                preload="metadata">
+
+                <source
+                    src=""
+                    type="video/mp4">
+
+            </video>
+        </div>
+
+    </div>
+
+</section>
+
+
             <!-- =========================================
                  FINAL VIDEO
             ========================================== -->
@@ -1659,23 +1774,31 @@
 
 
         /*
-         * VIDEO 1
+         * VIDEO 1,2
          */
 
-        if (
-            type ===
-            "video1"
-        ) {
+        if (type === "video1") {
 
-            playSceneVideo(
-                "bxVideo1",
-                false
-            );
+    playSceneVideo(
+        "bxVideo1",
+        false
+    );
 
-            return;
+    return;
 
-        }
+}
 
+
+if (type === "video2") {
+
+    playSceneVideo(
+        "bxVideo2",
+        false
+    );
+
+    return;
+
+}
 
         /*
          * INTERLUDE
@@ -1695,22 +1818,31 @@
         }
 
        /*
-         * VIDEO 2
+         * VIDEO 3,4
          */
 
-        if (
-            type ===
-            "video2"
-        ) {
+        if (type === "video3") {
 
-            playSceneVideo(
-                "bxVideo2",
-                false
-            );
+    playSceneVideo(
+        "bxVideo3",
+        false
+    );
 
-            return;
+    return;
 
-        }
+}
+
+
+if (type === "video4") {
+
+    playSceneVideo(
+        "bxVideo4",
+        false
+    );
+
+    return;
+
+}
 
         /*
          * LETTER
@@ -1731,13 +1863,13 @@
 
        
         /*
-         * VIDEO 3
+         * VIDEO 5
          */
 
-       if (type === "video3") {
+       if (type === "video5") {
 
     playSceneVideo(
-        "bxVideo3",
+        "bxVideo5",
         false
     );
 
@@ -4104,46 +4236,92 @@ function clearPhotoTimer() {
          * Videos.
          */
 
-        safeRun(
-            "video1",
-            function () {
+        /* =====================================================
+   SETUP ALL 5 MEMORY VIDEOS + FINAL VIDEO
+===================================================== */
 
-                setupVideo(
-                    "bxVideo1",
-                    C.memoryVideo,
-                    false
-                );
+safeRun(
+    "video1",
+    function () {
 
-            }
+        setupVideo(
+            "bxVideo1",
+            C.memory1,
+            false
         );
 
+    }
+);
 
-        safeRun(
-            "video2",
-            function () {
 
-                setupVideo(
-                    "bxVideo2",
-                    C.secondVideo,
-                    false
-                );
+safeRun(
+    "video2",
+    function () {
 
-            }
+        setupVideo(
+            "bxVideo2",
+            C.memory2,
+            false
         );
 
+    }
+);
 
-        safeRun(
-            "finalVideo",
-            function () {
 
-                setupVideo(
-                    "bxFinalVideo",
-                    C.finalVideo,
-                    true
-                );
+safeRun(
+    "video3",
+    function () {
 
-            }
+        setupVideo(
+            "bxVideo3",
+            C.memory3,
+            false
         );
+
+    }
+);
+
+
+safeRun(
+    "video4",
+    function () {
+
+        setupVideo(
+            "bxVideo4",
+            C.memory4,
+            false
+        );
+
+    }
+);
+
+
+safeRun(
+    "video5",
+    function () {
+
+        setupVideo(
+            "bxVideo5",
+            C.memory5,
+            false
+        );
+
+    }
+);
+
+
+safeRun(
+    "finalVideo",
+    function () {
+
+        setupVideo(
+            "bxFinalVideo",
+            C.finalVideo,
+            true
+        );
+
+    }
+);
 
 
         /*
