@@ -50,6 +50,8 @@ const BIRTHDAY_CONFIG = {
     secondVideo:
         "assets/videos/memory2.mp4",
 
+    memory3: "assets/videos/memory3.mp4",
+
     finalVideo:
         "assets/videos/final.mp4",
 
