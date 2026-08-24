@@ -35,8 +35,7 @@ const BIRTHDAY_CONFIG = {
         "assets/photos/04.jpg",
         "assets/photos/05.jpg",
         "assets/photos/06.jpg",
-        "assets/photos/07.jpg",
-        "assets/photos/08.jpg"
+        "assets/photos/07.jpg"
 
     ],
 
