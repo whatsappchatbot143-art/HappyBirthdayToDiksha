@@ -3636,44 +3636,64 @@ function clearPhotoTimer() {
        START BUTTON
     ===================================================== */
 
-    function setupStartButton() {
+    
+function setupStartButton() {
 
-        const button =
-            document.getElementById(
-                "bxStart"
-            );
+    const button = document.getElementById("bxStart");
 
+    if (!button) {
+        console.error("❌ bxStart not found.");
+        return;
+    }
 
-        if (!button) {
+    button.onclick = function () {
 
-            console.error(
-                "❌ bxStart not found."
-            );
+        if (started) return;
 
-            return;
+        console.log("🎬 START BUTTON CLICKED");
 
+        started = true;
+
+        button.disabled = true;
+        button.textContent = "Opening...";
+
+        try {
+            playMusic();
+        } catch (error) {
+            console.warn("Music error:", error);
         }
 
+        const hero = getScene("hero");
 
-        button.addEventListener(
-            "click",
-            function () {
+        if (!hero) {
+            console.error("❌ Hero scene missing.");
+            started = false;
+            button.disabled = false;
+            button.textContent = "Open Your Surprise ✦";
+            return;
+        }
 
-                if (started) {
-                    return;
-                }
+        console.log("🎬 CINEMATIC START");
 
+        /*
+         * Force the intro to close
+         * and hero to become active.
+         */
+        const intro = getScene("intro");
 
-                started =
-                    true;
+        if (intro) {
+            intro.classList.remove("active");
+        }
 
+        clearActiveTimer();
 
-                button.disabled =
-                    true;
+        transitionLocked = false;
 
+        setActiveScene(hero);
 
-                button.textContent =
-                    "Opening...";
+    };
+
+}
 
 
                 /*
