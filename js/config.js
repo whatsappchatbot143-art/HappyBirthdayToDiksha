@@ -43,10 +43,10 @@ const BIRTHDAY_CONFIG = {
        VIDEOS
     =============================== */
 
-    memoryVideo:
+    memory1:
         "assets/videos/memory1.mp4",
 
-    secondVideo:
+    memory2:
         "assets/videos/memory2.mp4",
 
     memory3: "assets/videos/memory3.mp4",
