@@ -1,0 +1,1316 @@
+/* =========================================================
+   ❤️ CINEMATIC BIRTHDAY EXPERIENCE
+   AUTO SCENE VERSION
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+#birthdayExperience{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    z-index:99999;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            #2a0823 0%,
+            #0d0310 48%,
+            #020103 100%
+        );
+
+    color:#fff;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    opacity:1;
+
+    visibility:visible;
+
+    transition:
+        opacity 1.8s ease,
+        visibility 1.8s ease;
+}
+
+
+/* =========================================================
+   HIDDEN / REVEAL
+========================================================= */
+
+#birthdayExperience.bx-hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.bx-background{
+    position:absolute;
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(255,50,160,.08),
+            transparent 45%
+        );
+}
+
+
+.bx-orb{
+    position:absolute;
+
+    width:35vw;
+    height:35vw;
+
+    max-width:500px;
+    max-height:500px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,50,170,.12),
+            transparent 70%
+        );
+
+    filter:blur(30px);
+
+    animation:
+        bxOrbMove 10s ease-in-out infinite alternate;
+}
+
+
+.bx-orb.one{
+    top:-15%;
+    left:-10%;
+}
+
+
+.bx-orb.two{
+    right:-15%;
+    bottom:-15%;
+
+    animation-delay:2s;
+}
+
+
+@keyframes bxOrbMove{
+
+    from{
+        transform:translate3d(-20px,-15px,0) scale(1);
+    }
+
+    to{
+        transform:translate3d(25px,20px,0) scale(1.15);
+    }
+
+}
+
+
+/* =========================================================
+   NOISE
+========================================================= */
+
+.bx-noise{
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+
+    opacity:.035;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.bx-progress{
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:0%;
+    height:2px;
+
+    z-index:100050;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff3d9d,
+            #b34dff,
+            #ff7cc8
+        );
+
+    box-shadow:
+        0 0 15px rgba(255,50,170,.7);
+
+    transition:
+        width .5s ease;
+}
+
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+.bx-music{
+    position:absolute;
+
+    right:22px;
+    bottom:22px;
+
+    width:48px;
+    height:48px;
+
+    z-index:100040;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.18);
+
+    background:
+        rgba(12,4,16,.75);
+
+    backdrop-filter:blur(12px);
+
+    color:#fff;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.4);
+
+    transition:.3s;
+}
+
+.bx-music:hover{
+    transform:scale(1.08);
+}
+
+
+/* =========================================================
+   SCENE SYSTEM
+========================================================= */
+
+.bx-scenes{
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+}
+
+
+.bx-scene{
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:
+        40px 22px;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    pointer-events:none;
+
+    transform:
+        scale(1.04)
+        translateY(20px);
+
+    transition:
+        opacity 1s ease,
+        transform 1.2s cubic-bezier(.22,.61,.36,1),
+        visibility 1s ease;
+}
+
+
+.bx-scene.active{
+    opacity:1;
+
+    visibility:visible;
+
+    pointer-events:auto;
+
+    transform:
+        scale(1)
+        translateY(0);
+}
+
+
+.bx-scene.exit{
+    opacity:0;
+
+    transform:
+        scale(.97)
+        translateY(-20px);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.bx-center{
+    position:relative;
+
+    width:min(900px,94vw);
+
+    margin:auto;
+
+    text-align:center;
+
+    z-index:2;
+}
+
+
+.bx-container{
+    position:relative;
+
+    width:min(900px,94vw);
+
+    margin:auto;
+
+    text-align:center;
+
+    z-index:2;
+}
+
+
+.bx-label{
+    font-size:10px;
+
+    letter-spacing:5px;
+
+    color:#ff8dca;
+
+    text-transform:uppercase;
+
+    margin-bottom:25px;
+
+    opacity:.9;
+}
+
+
+.bx-section-label{
+    font-size:10px;
+
+    letter-spacing:5px;
+
+    color:#ff8dca;
+
+    text-transform:uppercase;
+
+    margin-bottom:20px;
+
+    opacity:.85;
+}
+
+
+.bx-text{
+    max-width:650px;
+
+    margin:20px auto 0;
+
+    color:#b9aeb8;
+
+    font-size:
+        clamp(14px,2vw,17px);
+
+    line-height:1.9;
+}
+
+
+.bx-small{
+    color:#9e8f9d;
+
+    font-size:14px;
+
+    line-height:1.9;
+
+    max-width:600px;
+
+    margin:25px auto;
+}
+
+
+.bx-heading{
+    margin:0;
+
+    font-size:
+        clamp(48px,9vw,105px);
+
+    line-height:.9;
+
+    letter-spacing:-6px;
+
+    font-weight:900;
+}
+
+
+.bx-heading span{
+    display:block;
+
+    color:#ff65b9;
+}
+
+
+.bx-heading i{
+    font-family:Georgia,serif;
+
+    color:#ff75c0;
+
+    font-weight:normal;
+}
+
+
+.bx-name,
+.bx-hero-name{
+    margin-top:35px;
+
+    font-family:Georgia,serif;
+
+    font-size:
+        clamp(28px,5vw,60px);
+
+    color:#ffe4f2;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.bx-intro-title{
+    margin:0;
+
+    font-size:
+        clamp(58px,12vw,135px);
+
+    line-height:.82;
+
+    letter-spacing:-8px;
+
+    font-weight:900;
+}
+
+
+.bx-intro-title span{
+    display:block;
+
+    color:#ff65b9;
+}
+
+
+.bx-intro-subtitle,
+.bx-subtitle{
+    max-width:580px;
+
+    margin:35px auto 0;
+
+    color:#a99ba8;
+
+    font-size:16px;
+
+    line-height:2;
+}
+
+
+.bx-intro-subtitle strong,
+.bx-subtitle strong{
+    color:#fff;
+
+    font-weight:normal;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.bx-button{
+    position:relative;
+
+    margin-top:40px;
+
+    padding:
+        16px 30px;
+
+    border:
+        1px solid rgba(255,255,255,.2);
+
+    border-radius:100px;
+
+    background:
+        linear-gradient(
+            110deg,
+            #ff258f,
+            #8c39ff
+        );
+
+    color:#fff;
+
+    font-size:14px;
+
+    letter-spacing:.5px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 20px 70px rgba(255,0,150,.22);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+
+.bx-button:hover{
+    transform:
+        translateY(-4px)
+        scale(1.03);
+
+    box-shadow:
+        0 25px 90px rgba(255,0,150,.4);
+}
+
+
+.bx-button:active{
+    transform:scale(.97);
+}
+
+
+/* =========================================================
+   STORY
+========================================================= */
+
+.bx-story{
+    max-width:720px;
+
+    margin:35px auto 0;
+}
+
+
+.bx-story-line{
+    opacity:0;
+
+    transform:
+        translateY(15px);
+
+    color:#b9aeb8;
+
+    font-size:
+        clamp(16px,2.2vw,21px);
+
+    line-height:1.9;
+
+    margin:0 0 20px;
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+
+.bx-story-line.show{
+    opacity:1;
+
+    transform:
+        translateY(0);
+}
+
+
+.bx-story-line.final{
+    color:#fff;
+
+    font-family:Georgia,serif;
+
+    font-size:
+        clamp(22px,3.5vw,32px);
+}
+
+
+/* =========================================================
+   PHOTO MEMORY
+========================================================= */
+
+.bx-memory{
+    position:relative;
+
+    width:min(650px,88vw);
+
+    height:min(68vh,620px);
+
+    margin:auto;
+
+    overflow:hidden;
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    background:#050205;
+
+    box-shadow:
+        0 35px 100px rgba(0,0,0,.65);
+}
+
+
+.bx-memory img{
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    opacity:0;
+
+    transform:scale(1.08);
+
+    transition:
+        opacity 1.2s ease,
+        transform 5s ease;
+}
+
+
+.bx-memory img.active{
+    opacity:1;
+
+    transform:scale(1);
+}
+
+
+.bx-memory::after{
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent 45%,
+            rgba(0,0,0,.7)
+        );
+
+    pointer-events:none;
+}
+
+
+.bx-memory-caption{
+    position:absolute;
+
+    left:25px;
+    right:25px;
+    bottom:22px;
+
+    z-index:4;
+
+    text-align:left;
+
+    color:#fff;
+
+    font-family:Georgia,serif;
+
+    font-size:
+        clamp(18px,3vw,28px);
+}
+
+
+/* =========================================================
+   MEMORY COUNTER
+========================================================= */
+
+.bx-counter{
+    margin-top:18px;
+
+    color:#8d808d;
+
+    font-size:10px;
+
+    letter-spacing:3px;
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.bx-video-wrap{
+    width:min(900px,94vw);
+
+    margin:auto;
+
+    position:relative;
+}
+
+
+.bx-video{
+    display:block;
+
+    width:100%;
+
+    max-height:72vh;
+
+    background:#000;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    box-shadow:
+        0 35px 100px rgba(0,0,0,.6);
+}
+
+
+.bx-video-note{
+    margin-top:18px;
+
+    color:#7d707d;
+
+    font-size:10px;
+
+    letter-spacing:2px;
+}
+
+
+/* =========================================================
+   LETTER
+========================================================= */
+
+.bx-letter{
+    width:min(780px,94vw);
+
+    max-height:82vh;
+
+    overflow:hidden;
+
+    margin:auto;
+
+    padding:
+        clamp(30px,6vw,65px);
+
+    text-align:left;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.018)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    box-shadow:
+        0 40px 120px rgba(0,0,0,.45);
+}
+
+
+.bx-letter h2{
+    margin:
+        0 0 35px;
+
+    font-family:Georgia,serif;
+
+    font-size:
+        clamp(35px,6vw,62px);
+
+    font-weight:normal;
+}
+
+
+.bx-letter h2 span{
+    color:#ff72c0;
+}
+
+
+.bx-letter p{
+    margin:
+        0 0 18px;
+
+    color:#bdb0bc;
+
+    font-size:
+        clamp(14px,2vw,17px);
+
+    line-height:1.85;
+}
+
+
+.bx-letter .special{
+    color:#fff;
+
+    font-family:Georgia,serif;
+
+    font-style:italic;
+
+    font-size:
+        clamp(18px,3vw,25px);
+}
+
+
+/* =========================================================
+   INTERLUDE
+========================================================= */
+
+.bx-interlude h2{
+    margin:0;
+
+    font-size:
+        clamp(58px,12vw,140px);
+
+    line-height:.8;
+
+    letter-spacing:-8px;
+}
+
+
+.bx-interlude h2 span{
+    color:#ff70bd;
+
+    font-family:Georgia,serif;
+
+    font-weight:normal;
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.bx-final{
+    background:
+        radial-gradient(
+            circle at center,
+            #27071f,
+            #050207 65%
+        );
+}
+
+
+.bx-final h1{
+    margin:0;
+
+    font-size:
+        clamp(65px,14vw,160px);
+
+    line-height:.78;
+
+    letter-spacing:-9px;
+}
+
+
+.bx-final h1 span{
+    color:#ff67ba;
+}
+
+
+.bx-final-name{
+    margin-top:38px;
+
+    color:#ffe1f1;
+
+    font-family:Georgia,serif;
+
+    font-size:
+        clamp(25px,5vw,55px);
+}
+
+
+.bx-final-message{
+    max-width:650px;
+
+    margin:35px auto;
+
+    color:#aaa0ab;
+
+    font-size:16px;
+
+    line-height:2;
+}
+
+
+.bx-secret{
+    max-width:650px;
+
+    margin:35px auto 0;
+
+    padding:
+        25px 20px;
+
+    border-top:
+        1px solid rgba(255,255,255,.1);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.1);
+
+    color:#aaa0aa;
+
+    line-height:1.9;
+}
+
+
+.bx-secret strong{
+    display:block;
+
+    color:#ff76c2;
+
+    letter-spacing:4px;
+
+    font-size:9px;
+}
+
+
+.bx-heart{
+    color:#ff4cab;
+
+    font-size:32px;
+
+    margin:15px 0;
+
+    animation:
+        bxHeart 1.4s infinite;
+}
+
+
+@keyframes bxHeart{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    15%{
+        transform:scale(1.3);
+    }
+
+    30%{
+        transform:scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   SCENE HINT
+========================================================= */
+
+.bx-auto-hint{
+    position:absolute;
+
+    left:50%;
+
+    bottom:25px;
+
+    transform:translateX(-50%);
+
+    color:#716472;
+
+    font-size:9px;
+
+    letter-spacing:3px;
+
+    text-transform:uppercase;
+
+    animation:
+        bxHint 2s ease-in-out infinite;
+}
+
+
+@keyframes bxHint{
+
+    0%,100%{
+        opacity:.3;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+}
+
+
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+.bx-lightbox{
+    position:absolute;
+
+    inset:0;
+
+    z-index:100100;
+
+    background:
+        rgba(0,0,0,.96);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+
+.bx-lightbox.show{
+    display:flex;
+}
+
+
+.bx-lightbox img{
+    max-width:95vw;
+
+    max-height:90vh;
+
+    object-fit:contain;
+}
+
+
+.bx-close{
+    position:absolute;
+
+    top:15px;
+    right:25px;
+
+    z-index:5;
+
+    width:45px;
+    height:45px;
+
+    border:0;
+
+    background:none;
+
+    color:#fff;
+
+    font-size:40px;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   FLOATING HEARTS
+========================================================= */
+
+.bx-floating-heart{
+    position:absolute;
+
+    bottom:-40px;
+
+    z-index:3;
+
+    color:#ff65b9;
+
+    pointer-events:none;
+
+    opacity:0;
+
+    animation:
+        bxFloatHeart linear forwards;
+}
+
+
+@keyframes bxFloatHeart{
+
+    0%{
+        transform:
+            translateY(0)
+            rotate(0deg)
+            scale(.6);
+
+        opacity:0;
+    }
+
+    15%{
+        opacity:.7;
+    }
+
+    100%{
+        transform:
+            translateY(-110vh)
+            rotate(360deg)
+            scale(1.2);
+
+        opacity:0;
+    }
+
+}
+
+
+/* =========================================================
+   FINAL REVEAL FLASH
+========================================================= */
+
+.bx-flash{
+    position:absolute;
+
+    inset:0;
+
+    z-index:100200;
+
+    background:#fff;
+
+    opacity:0;
+
+    pointer-events:none;
+}
+
+
+.bx-flash.play{
+    animation:
+        bxFlash .9s ease;
+}
+
+
+@keyframes bxFlash{
+
+    0%{
+        opacity:0;
+    }
+
+    25%{
+        opacity:.85;
+    }
+
+    100%{
+        opacity:0;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+    #birthdayExperience{
+        height:100dvh;
+    }
+
+
+    .bx-scene{
+        height:100dvh;
+
+        padding:
+            30px 16px;
+    }
+
+
+    .bx-heading{
+        letter-spacing:-3px;
+    }
+
+
+    .bx-intro-title{
+        letter-spacing:-5px;
+    }
+
+
+    .bx-memory{
+        width:92vw;
+
+        height:58vh;
+    }
+
+
+    .bx-letter{
+        max-height:75vh;
+
+        padding:
+            28px 22px;
+    }
+
+
+    .bx-letter p{
+        line-height:1.65;
+
+        margin-bottom:13px;
+    }
+
+
+    .bx-final h1{
+        letter-spacing:-5px;
+    }
+
+
+    .bx-button{
+        padding:
+            15px 25px;
+    }
+
+
+    .bx-music{
+        right:15px;
+
+        bottom:15px;
+
+        width:44px;
+        height:44px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media(max-width:380px){
+
+    .bx-memory{
+        height:52vh;
+    }
+
+    .bx-letter{
+        max-height:72vh;
+    }
+
+    .bx-letter p{
+        font-size:13px;
+    }
+
+}
+
+/* ==========================================
+   CINEMATIC ONE-BY-ONE PHOTO SLIDESHOW
+========================================== */
+
+#birthdayExperience .bx-gallery {
+    width: 100%;
+    height: 72vh;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+#birthdayExperience .bx-photo-stage {
+    width: min(900px, 94vw);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+
+#birthdayExperience #bxMainPhoto {
+    width: 100%;
+    height: 100%;
+
+    /*
+       Image kabhi aadhi/crop nahi hogi.
+       Puri image visible rahegi.
+    */
+    object-fit: contain;
+
+    display: block;
+
+    border-radius: 22px;
+
+    opacity: 0;
+
+    transform: scale(1.04);
+
+    transition:
+        opacity 1.2s ease,
+        transform 6.5s ease;
+
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#birthdayExperience #bxMainPhoto.bx-photo-visible,
+#birthdayExperience #bxMainPhoto.bx-photo-enter {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#birthdayExperience #bxMainPhoto.bx-photo-leave {
+    opacity: 0;
+    transform: scale(1.03);
+}
+
+#birthdayExperience .bx-photo-counter {
+    position: absolute;
+    bottom: 25px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 50;
+
+    padding: 8px 18px;
+
+    border-radius: 50px;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    color: #fff;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    backdrop-filter: blur(10px);
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    #birthdayExperience .bx-gallery {
+        height: 58vh;
+        min-height: 350px;
+    }
+
+    #birthdayExperience .bx-photo-stage {
+        width: 96vw;
+    }
+
+}
